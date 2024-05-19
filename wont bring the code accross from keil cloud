@@ -1,0 +1,26 @@
+#include "mbed.h"
+
+// Define the button pin
+InterruptIn button(BUTTON1);  // BUTTON1 is usually defined in the board-specific header files
+
+// Serial object for printing messages
+Serial pc(USBTX, USBRX);
+
+// ISR for button press
+void button_pressed() {
+    pc.printf("Button pressed\r\n");
+}
+
+int main() {
+    // Initialize the serial communication
+    pc.baud(115200);
+
+    // Attach the ISR to the button press event
+    button.fall(&button_pressed);  // Attach the ISR to the falling edge (button press)
+
+    // Main loop does nothing, just waits for interrupts
+    while (true) {
+        // Sleep or wait to save power
+        wait_ms(1000);
+    }
+}
